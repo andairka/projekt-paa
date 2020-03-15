@@ -1,3 +1,4 @@
+
 const Koa = require('koa')
 const app = new Koa()
 const views = require('koa-views')
@@ -42,3 +43,5 @@ app.on('error', (err, ctx) => {
 });
 
 module.exports = app
+
+require('./store').init()
