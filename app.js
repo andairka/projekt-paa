@@ -10,14 +10,20 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
+const tasks = require('./routes/tasks')
+
+
 // error handler
 onerror(app)
 
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
+
 }))
 app.use(json())
+
+app.use(tasks.routes(), tasks.allowedMethods())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
