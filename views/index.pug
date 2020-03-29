@@ -20,8 +20,9 @@ block content
     each task in tasks
       tr
         td= task.title
-        if task.opis.lenght === 0
-		td='brak opisu'
-	else
-	td= task.opis
+        .script
+		if (task.opis.lenght === 0)
+			td='brak opisu'
+		else
+			td= task.opis
 
