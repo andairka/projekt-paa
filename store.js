@@ -32,12 +32,13 @@ const createTask = async (title) => (
 const listTasks = async () => (
   new Promise((resolve, reject) => {
     const query = new storage.TableQuery()
-      .select(['title'])
+      .select(['title','opis'])
       .where('PartitionKey eq ?', 'task')
 
     service.queryEntities(table, query, null, (error, result, response) => {
       !error ? resolve(result.entries.map((entry) => ({
         title: entry.title._
+        opis: entry.opis._
       }))) : reject()
     })
   })
