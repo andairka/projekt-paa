@@ -34,9 +34,12 @@ const listTasks = async () => (
       .where('PartitionKey eq ?', 'task')
 
     service.queryEntities(table, query, null, (error, result, response) => {
-      !error ? resolve(result.entries.map((entry) => ({
-        title: JSON.stringify(entry)
-      }))) : reject()
+      !error ? resolve(result.entries.map((entry) => {
+        return { 
+		"title": entry.title._,
+		"opis": entry.opis._
+	};
+      })) : reject()
     })
   })
 )
