@@ -35,9 +35,10 @@ const listTasks = async () => (
 
     service.queryEntities(table, query, null, (error, result, response) => {
       !error ? resolve(result.entries.map((entry) => {
+	var opis = entry.opis._ !== null ? entry.opis._ : 'Brak wartosci';      
         return { 
 		"title": entry.title._,
-		"opis": entry.opis._
+		"opis": opis
 	};
       })) : reject()
     })
