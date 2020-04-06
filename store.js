@@ -1,6 +1,7 @@
 const storage = require('azure-storage')
 const service = storage.createTableService()
 const table = 'tasks'
+const uuid = require('uuid')
 
 const init = async () => (
   new Promise((resolve, reject) => {
@@ -9,10 +10,6 @@ const init = async () => (
     })
   })
 )
-
-
-
-const uuid = require('uuid')
 
 const createTask = async (title, opis) => (
   new Promise((resolve, reject) => {
@@ -38,8 +35,8 @@ const listTasks = async () => (
 
     service.queryEntities(table, query, null, (error, result, response) => {
       !error ? resolve(result.entries.map((entry) => ({
-        title: entry.title._,
-        opis: entry.opis._
+        title: entry.title._//,
+        //opis: entry.opis._
       }))) : reject()
     })
   })
