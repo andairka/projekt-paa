@@ -12,6 +12,7 @@ const users = require('./routes/users')
 
 const tasks = require('./routes/tasks')
 
+require('./store').init()
 
 // error handler
 onerror(app)
@@ -52,4 +53,3 @@ app.on('error', (err, ctx) => {
 
 module.exports = app
 
-require('./store').init()
