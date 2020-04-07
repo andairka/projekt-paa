@@ -18,7 +18,8 @@ const createTask = async (title, opis, data) => (
       PartitionKey: generator.String('task'),
       RowKey: generator.String(uuid.v4()),
       title,
-      opis
+      opis,
+      data
     }
 
     service.insertEntity(table, task, (error, result, response) => {
@@ -36,11 +37,11 @@ const listTasks = async () => (
     service.queryEntities(table, query, null, (error, result, response) => {
       !error ? resolve(result.entries.map((entry) => {
 	var opis = entry.opis._ !== null ? entry.opis._ : 'Brak wartosci';      
-	var data == 'test';
+	var data = 'test';
         return { 
 		"title": entry.title._,
 		"opis": opis,
-		"data":data
+		"data": data
 	};
       })) : reject()
     })
