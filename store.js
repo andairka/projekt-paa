@@ -21,7 +21,8 @@ const createTask = async (title, opis) => (
       RowKey: generator.String(uuid.v4()),
       title,
       opis,
-      data
+      data,
+	status: 'open'
     }
 
     service.insertEntity(table, task, (error, result, response) => {
@@ -33,7 +34,7 @@ const createTask = async (title, opis) => (
 const listTasks = async () => (
   new Promise((resolve, reject) => {
     const query = new storage.TableQuery()
-      .select(['title', 'opis', 'data'])
+      .select(['RowKey', 'title', 'opis', 'data', 'Status'])
       .where('PartitionKey eq ?', 'task')
 
     service.queryEntities(table, query, null, (error, result, response) => {
@@ -41,18 +42,35 @@ const listTasks = async () => (
 	var opis = entry.opis._ !== null ? entry.opis._ : 'Brak wartosci';      
 	var data = entry.data._;
         return { 
+		"id": entry.RowKey._,
 		"title": entry.title._,
 		"opis": opis,
 		"data": data
+		"status": entry.status_
 	};
       })) : reject()
     })
   })
 )
 
+const updateTaskStatus = async (id, status) => (
+  new Promise((resolve, reject) => {
+    const generator = storage.TableUtilities.entityGenerator
+    const task = {
+      PartitionKey: generator.String('task'),
+      RowKey: generator.String(id),
+      status
+    }
+
+    service.mergeEntity(table, task, (error, result, response) => {
+      !error ? resolve() : reject()
+    })
+  })
+)
 
 module.exports = {
   init,
   createTask,
-  listTasks
+  listTasks,
+  updateTaskStatus
 }
