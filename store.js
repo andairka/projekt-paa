@@ -14,12 +14,14 @@ const init = async () => (
 
 const createTask = async (title, opis) => (
   new Promise((resolve, reject) => {
+    const data = moment().format('MMMM Do YYYY, h:mm:ss a');
     const generator = storage.TableUtilities.entityGenerator
     const task = {
       PartitionKey: generator.String('task'),
       RowKey: generator.String(uuid.v4()),
       title,
-      opis
+      opis,
+      data
     }
 
     service.insertEntity(table, task, (error, result, response) => {
