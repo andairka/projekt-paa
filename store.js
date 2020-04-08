@@ -2,6 +2,7 @@ const storage = require('azure-storage')
 const service = storage.createTableService()
 const table = 'tasks'
 const uuid = require('uuid')
+const moment = require('moment')
 
 const init = async () => (
   new Promise((resolve, reject) => {
@@ -11,8 +12,9 @@ const init = async () => (
   })
 )
 
-const createTask = async (title, opis, data) => (
+const createTask = async (title, opis) => (
   new Promise((resolve, reject) => {
+    const data = moment.format()
     const generator = storage.TableUtilities.entityGenerator
     const task = {
       PartitionKey: generator.String('task'),
